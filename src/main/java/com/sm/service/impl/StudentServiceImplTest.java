@@ -1,5 +1,7 @@
 package com.sm.service.impl;
 
+import com.sm.dao.StudentDAO;
+import com.sm.entity.Student;
 import com.sm.entity.StudentVO;
 import com.sm.factory.ServiceFactory;
 import com.sm.service.StudentService;
@@ -43,5 +45,20 @@ public class StudentServiceImplTest {
         List<StudentVO> studentVOList = null;
         studentVOList = studentService.selectByKeywords("河");
         studentVOList.forEach(studentVO -> System.out.println(studentVO));
+    }
+    @Test
+    public void updateStudent() throws SQLException {
+        Student student = new Student();
+        student.setId("1802343331");
+        student.setAddress("江苏南京");
+        student.setPhone("1312513252");
+        int n = studentService.updateStudent(student);
+        assertEquals(1,n);
+    }
+
+    @Test
+    public void deleteById() throws SQLException{
+        int n = studentService.deleteById("1802343301");
+        assertEquals(1,n);
     }
 }

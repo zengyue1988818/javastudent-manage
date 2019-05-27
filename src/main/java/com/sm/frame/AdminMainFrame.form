@@ -358,8 +358,8 @@
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints border-constraint="East"/>
                 <properties>
-                  <minimumSize width="350" height="200"/>
-                  <preferredSize width="350" height="200"/>
+                  <minimumSize width="400" height="150"/>
+                  <preferredSize width="400" height="150"/>
                 </properties>
                 <border type="none"/>
                 <children>

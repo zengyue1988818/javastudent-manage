@@ -1,6 +1,7 @@
 package com.sm.dao.impl;
 
 import com.sm.dao.StudentDAO;
+import com.sm.entity.Student;
 import com.sm.entity.StudentVO;
 import com.sm.factory.DAOFactory;
 import org.junit.Test;
@@ -64,5 +65,19 @@ public class StudentDAOImplTest {
             e.printStackTrace();
         }
         studentVOList.forEach(studentVO -> System.out.println(studentVO));
+    }
+    @Test
+    public void updateStudent() throws SQLException{
+        Student student = new Student();
+        student.setId("1802343305");
+        student.setAddress("湖北武汉");
+        student.setPhone("17826022");
+        int n = studentDAO.updateStudent(student);
+        assertEquals(1,n);
+    }
+    @Test
+    public void deleteById() throws SQLException{
+        int n = studentDAO.deleteById("1802343305");
+        assertEquals(1,n);
     }
 }

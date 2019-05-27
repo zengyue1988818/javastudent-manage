@@ -4,6 +4,7 @@ import com.sm.entity.Department;
 import com.sm.entity.Student;
 import com.sm.entity.StudentVO;
 import com.sm.factory.ServiceFactory;
+import com.sun.org.apache.xerces.internal.xs.StringList;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -47,4 +48,20 @@ public interface StudentDAO {
      * @throws SQLException
      */
     List<StudentVO> selectByKeywords(String keywords)throws SQLException;
+
+    /**
+     * 更新学生信息
+     * @param student
+     * @return int
+     * @throws SQLException
+     */
+    int updateStudent(Student student)throws SQLException;
+
+    /**
+     * 根据id删除学生信息
+     * @param id
+     * @return int
+     * @throws SQLException
+     */
+    int deleteById(String id) throws SQLException;
 }
