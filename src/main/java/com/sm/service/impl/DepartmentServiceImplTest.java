@@ -5,17 +5,30 @@ import com.sm.factory.ServiceFactory;
 import com.sm.service.DepartmentService;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class DepartmentServiceImplTest {
 
-    private DepartmentService departmentService = ServiceFactory.getDepartmentServiceInstance();
+    private DepartmentService departmentService =
+            ServiceFactory.getDepartmentServiceInstance();
 
     @Test
     public void selectAll() {
         List<Department> departmentList = departmentService.selectAll();
         departmentList.forEach(department -> System.out.println(department));
+    }
+    @Test
+    public void deleteDepartmentById() throws SQLException {
+        departmentService.deleteDepartment(35);
+    }
+    @Test
+    public void addDepartment(){
+        Department department = new Department();
+        department.setDepartmentName("测试院系2");
+        department.setLogo("https://zystudent-manage.oss-cn-beijing.aliyuncs.com/img5f785718-0d40-430c-96b5-1c69411d7f2d.jpg");
+        int n = departmentService.addDepartment(department);
     }
 }

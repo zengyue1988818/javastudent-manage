@@ -1,7 +1,6 @@
 package com.sm.dao.impl;
 
 import com.sm.dao.DepartmentDAO;
-import com.sm.entity.Admin;
 import com.sm.entity.Department;
 import com.sm.utils.JDBCUtil;
 
@@ -32,5 +31,36 @@ public class DepartmentDAOImpl implements DepartmentDAO {
         pstmt.close();
         jdbcUtil.closeConnection();
         return departmentList;
+    }
+
+    @Override
+    public void deleteDepartmentById(long id) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "DELETE FROM t_department WHERE  id=?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setInt(1,8);
+        int n = pstmt.executeUpdate();
+        System.out.println(n + "行记录受影响");
+        pstmt.close();
+        jdbcUtil.closeConnection();
+    }
+
+    @Override
+    public int insertDepartment(Department department) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "INSERT INTO t_department (department_name,logo) VALUES (?,?) ";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, department.getDepartmentName());
+        pstmt.setString(2, department.getLogo());
+        int n = pstmt.executeUpdate();
+        pstmt.close();
+        connection.close();
+        return n;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

@@ -23,4 +23,20 @@ public class DepartmentDAOImplTest {
         }
         departmentList.forEach(department -> System.out.println(department));
     }
+    @Test
+    public void deleteDepartmentById() throws SQLException{
+        departmentDAO.deleteDepartmentById(11);
+    }
+    @Test
+    public void insertDepartment() {
+        Department department = new Department();
+        department.setDepartmentName("测试院系");
+        department.setLogo("https://student-manage.oss-cn-beijing.aliyuncs.com/img1cf296b3-9fb9-4419-909b-2fc6ce1f5959.jpg");
+        try {
+            int n = departmentDAO.insertDepartment(department);
+            assertEquals(1, n);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

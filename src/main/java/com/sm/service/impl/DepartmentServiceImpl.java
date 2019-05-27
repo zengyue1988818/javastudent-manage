@@ -21,4 +21,24 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         return departmentList;
     }
+
+    @Override
+    public void deleteDepartment(long id) {
+        try {
+            departmentDAO.deleteDepartmentById(id);
+        } catch (SQLException e) {
+            System.err.println("删除商品出现异常");
+        }
+    }
+
+    @Override
+    public int addDepartment(Department department) {
+        int n = 0;
+        try {
+            n = departmentDAO.insertDepartment(department);
+        } catch (SQLException e) {
+            System.err.print("新增院系信息出现异常");
+        }
+        return n;
+    }
 }
