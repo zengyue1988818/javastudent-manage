@@ -8,6 +8,7 @@ import com.sm.service.StudentService;
 import org.junit.Test;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -46,19 +47,33 @@ public class StudentServiceImplTest {
         studentVOList = studentService.selectByKeywords("河");
         studentVOList.forEach(studentVO -> System.out.println(studentVO));
     }
-    @Test
-    public void updateStudent() throws SQLException {
+   @Test
+    public void updateStudent() throws SQLException{
         Student student = new Student();
-        student.setId("1802343331");
-        student.setAddress("江苏南京");
-        student.setPhone("1312513252");
+        student.setId("1802343323");
+        student.setAddress("江苏淮安");
+        student.setPhone("1782605544");
         int n = studentService.updateStudent(student);
         assertEquals(1,n);
-    }
-
+   }
     @Test
     public void deleteById() throws SQLException{
-        int n = studentService.deleteById("1802343301");
+        int n = studentService.deleteById("1802343315");
         assertEquals(1,n);
     }
+    @Test
+    public void addStudent() throws SQLException{
+        Student student = new Student();
+        student.setId("1802340");
+        student.setClassId(1);
+        student.setStudentName("陈伟霆");
+        student.setAvatar("2.jpg");
+        student.setBirthday(new Date());
+        student.setGender("男");
+        student.setAddress("江苏南京");
+        student.setPhone("13782561");
+        int n = studentService.addStudent(student);
+        System.out.println(n);
+    }
+
 }

@@ -7,10 +7,7 @@ import com.sm.entity.StudentVO;
 import com.sm.utils.JDBCUtil;
 import com.sun.org.apache.xerces.internal.xs.StringList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -135,6 +132,26 @@ public class StudentDAOImpl implements StudentDAO {
         pstmt.close();
         connection.close();
         return  n;
+    }
+
+    @Override
+    public int insertStudent(Student student) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "INSERT INTO t_student VALUES (?,?,?,?,?,?,?,?)";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1,student.getId());
+        pstmt.setInt(2,student.getClassId());
+        pstmt.setString(3,student.getStudentName());
+        pstmt.setString(4,student.getAvatar());
+        pstmt.setString(5,student.getGender());
+        pstmt.setDate(6,new Date(student.getBirthday().getTime()));
+        pstmt.setString(7,student.getAddress());
+        pstmt.setString(8,student.getPhone());
+        int n = pstmt.executeUpdate();
+        pstmt.close();
+        connection.close();
+        return n;
     }
 
     private List<StudentVO> convert(ResultSet rs)throws SQLException{

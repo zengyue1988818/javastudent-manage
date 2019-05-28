@@ -192,6 +192,13 @@ public class AdminMainFrame extends JFrame{
                 departmentId = depcomboBox.getItemAt(index).getId();
             }
         });
+        新增学生Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddFrame(AdminMainFrame.this);
+                AdminMainFrame.this.setEnabled(true);
+            }
+        });
 
         搜索Button.addActionListener(new ActionListener() {
             @Override
@@ -231,294 +238,295 @@ public class AdminMainFrame extends JFrame{
         });
     }
 
-private void showStudentTable(List<StudentVO> studentList) {
-    tablePanel.removeAll();
-    //获得所有学生视图数据
-//     studentList = ServiceFactory.getStudentServiceInstance().selectAll();
-    //创建表格
-    JTable table = new JTable();
-    //表格数据模型
-    DefaultTableModel model = new DefaultTableModel();
-    table.setModel(model);
-    //表头内容
-    model.setColumnIdentifiers(new String[]{"学号", "院系", "班级", "姓名", "性别", "地址", "手机号", "出生日期", "头像"});
-    //遍历List,转成Obiect数组
-    for (StudentVO student : studentList) {
-        Object[] object = new Object[]{student.getId(), student.getDepartmentName(), student.getClassName(),
-                student.getStudentName(), student.getGender(), student.getAddress(), student.getPhone(), student.getBirthday(), student.getAvatar()};
-        model.addRow(object);
-    }
-    //将最后一列隐藏头像地址不显示在表格中
-    TableColumn tc = table.getColumnModel().getColumn(8);
-    tc.setMinWidth(0);
-    tc.setMaxWidth(0);
-    //获得表头
-    JTableHeader head = table.getTableHeader();
-    //表头居中
-    DefaultTableCellHeaderRenderer hr = new DefaultTableCellHeaderRenderer();
-    hr.setHorizontalAlignment(JLabel.CENTER);
-    head.setDefaultRenderer(hr);
-    //设置表头大小
-    head.setPreferredSize(new Dimension(head.getWidth(), 40));
-    //设置表头字体
-    head.setFont(new Font("微软雅黑", Font.PLAIN, 22));
-    //设置表头行高
-    table.setRowHeight(35);
-    //表格背景色
-    table.setBackground(new Color(242, 178, 187));
-    //表格内容居中
-    DefaultTableCellHeaderRenderer r = new DefaultTableCellHeaderRenderer();
-    r.setHorizontalAlignment(JLabel.CENTER);
-    table.setDefaultRenderer(Object.class, r);
-    //表格加入滚动面板，水平垂直方向带滚动条
-    JScrollPane scrollPane = new JScrollPane(table, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    tablePanel.add(scrollPane);
-    tablePanel.revalidate();
-    //表格内容选择监听，点击一行，在右面显示这个学生信息
 
-    JPopupMenu jPopupMenu = new JPopupMenu();
-    JMenuItem item = new JMenuItem("删除");
-    jPopupMenu.add(item);
-    table.add(jPopupMenu);
-    table.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            row = table.getSelectedRow();
-            stuIdLabel.setText(table.getValueAt(row, 0).toString());
-            stuDepLabel.setText(table.getValueAt(row, 1).toString());
-            stuClassLabel.setText(table.getValueAt(row, 2).toString());
-            stuNameLabel.setText(table.getValueAt(row, 3).toString());
-            stuGenderLabel.setText(table.getValueAt(row, 4).toString());
-            stuAddressTield.setText(table.getValueAt(row, 5).toString());
-            stuPhoneField.setText(table.getValueAt(row, 6).toString());
-            stuBirthdayLabel.setText(table.getValueAt(row, 7).toString());
-            stuAvatarLael.setText("<html><img src='" + table.getValueAt(row, 8).toString() + "'/></html>");
-            //显示编辑按钮
-            编辑Button.setVisible(true);
-            编辑Button.setText("编辑");
-            编辑Button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //如果按钮文字是编辑，就激活两个文本框，并将按钮文字设置为保存
-                    if (e.getActionCommand().equals("编辑")) {
-                        stuAddressTield.setEditable(true);
-                        stuAddressTield.setEnabled(true);
-                        stuPhoneField.setEditable(true);
-                        stuPhoneField.setEnabled(true);
-                        编辑Button.setText("保存");
-                    }
-                    //如果按钮文字为保存，，则通过输出内容创建修改的student对象，调用service进行信息更新
-                    if (e.getActionCommand().equals("保存")) {
-                        Student student = new Student();
-                        student.setId(stuIdLabel.getText());
-                        student.setAddress(stuAddressTield.getText());
-                        student.setPhone(stuPhoneField.getText());
-                        try {
-                            int n = ServiceFactory.getStudentServiceInstance().updateStudent(student);
-                            if (n == 1) {
-                                //更新表格中的对应行的地址，电话单元格的内容
-                                model.setValueAt(stuAddressTield.getText(), row, 5);
-                                model.setValueAt(stuPhoneField.getText(), row, 6);
-                                //文本框恢复成不可以状态
-                                stuAddressTield.setEditable(false);
-                                stuAddressTield.setEnabled(false);
-                                stuPhoneField.setEditable(false);
-                                stuPhoneField.setEnabled(false);
-                                //按钮文字恢复编辑
-                                编辑Button.setText("编辑");
+    public void showStudentTable(List<StudentVO> studentList) {
+        tablePanel.removeAll();
+        //获得所有学生视图数据
+//     studentList = ServiceFactory.getStudentServiceInstance().selectAll();
+        //创建表格
+        JTable table = new JTable();
+        //表格数据模型
+        DefaultTableModel model = new DefaultTableModel();
+        table.setModel(model);
+        //表头内容
+        model.setColumnIdentifiers(new String[]{"学号", "院系", "班级", "姓名", "性别", "地址", "手机号", "出生日期", "头像"});
+        //遍历List,转成Obiect数组
+        for (StudentVO student : studentList) {
+            Object[] object = new Object[]{student.getId(), student.getDepartmentName(), student.getClassName(),
+                    student.getStudentName(), student.getGender(), student.getAddress(), student.getPhone(), student.getBirthday(), student.getAvatar()};
+            model.addRow(object);
+        }
+        //将最后一列隐藏头像地址不显示在表格中
+        TableColumn tc = table.getColumnModel().getColumn(8);
+        tc.setMinWidth(0);
+        tc.setMaxWidth(0);
+        //获得表头
+        JTableHeader head = table.getTableHeader();
+        //表头居中
+        DefaultTableCellHeaderRenderer hr = new DefaultTableCellHeaderRenderer();
+        hr.setHorizontalAlignment(JLabel.CENTER);
+        head.setDefaultRenderer(hr);
+        //设置表头大小
+        head.setPreferredSize(new Dimension(head.getWidth(), 40));
+        //设置表头字体
+        head.setFont(new Font("微软雅黑", Font.PLAIN, 22));
+        //设置表头行高
+        table.setRowHeight(35);
+        //表格背景色
+        table.setBackground(new Color(242, 178, 187));
+        //表格内容居中
+        DefaultTableCellHeaderRenderer r = new DefaultTableCellHeaderRenderer();
+        r.setHorizontalAlignment(JLabel.CENTER);
+        table.setDefaultRenderer(Object.class, r);
+        //表格加入滚动面板，水平垂直方向带滚动条
+        JScrollPane scrollPane = new JScrollPane(table, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        tablePanel.add(scrollPane);
+        tablePanel.revalidate();
+        //表格内容选择监听，点击一行，在右面显示这个学生信息
+
+        JPopupMenu jPopupMenu = new JPopupMenu();
+        JMenuItem item = new JMenuItem("删除");
+        jPopupMenu.add(item);
+        table.add(jPopupMenu);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                row = table.getSelectedRow();
+                stuIdLabel.setText(table.getValueAt(row, 0).toString());
+                stuDepLabel.setText(table.getValueAt(row, 1).toString());
+                stuClassLabel.setText(table.getValueAt(row, 2).toString());
+                stuNameLabel.setText(table.getValueAt(row, 3).toString());
+                stuGenderLabel.setText(table.getValueAt(row, 4).toString());
+                stuAddressTield.setText(table.getValueAt(row, 5).toString());
+                stuPhoneField.setText(table.getValueAt(row, 6).toString());
+                stuBirthdayLabel.setText(table.getValueAt(row, 7).toString());
+                stuAvatarLael.setText("<html><img src='" + table.getValueAt(row, 8).toString() + "'/></html>");
+                //显示编辑按钮
+                编辑Button.setVisible(true);
+                编辑Button.setText("编辑");
+                编辑Button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //如果按钮文字是编辑，就激活两个文本框，并将按钮文字设置为保存
+                        if (e.getActionCommand().equals("编辑")) {
+                            stuAddressTield.setEditable(true);
+                            stuAddressTield.setEnabled(true);
+                            stuPhoneField.setEditable(true);
+                            stuPhoneField.setEnabled(true);
+                            编辑Button.setText("保存");
+                        }
+                        //如果按钮文字为保存，，则通过输出内容创建修改的student对象，调用service进行信息更新
+                        if (e.getActionCommand().equals("保存")) {
+                            Student student = new Student();
+                            student.setId(stuIdLabel.getText());
+                            student.setAddress(stuAddressTield.getText());
+                            student.setPhone(stuPhoneField.getText());
+                            try {
+                                int n = ServiceFactory.getStudentServiceInstance().updateStudent(student);
+                                if (n == 1) {
+                                    //更新表格中的对应行的地址，电话单元格的内容
+                                    model.setValueAt(stuAddressTield.getText(), row, 5);
+                                    model.setValueAt(stuPhoneField.getText(), row, 6);
+                                    //文本框恢复成不可以状态
+                                    stuAddressTield.setEditable(false);
+                                    stuAddressTield.setEnabled(false);
+                                    stuPhoneField.setEditable(false);
+                                    stuPhoneField.setEnabled(false);
+                                    //按钮文字恢复编辑
+                                    编辑Button.setText("编辑");
+                                }
+                            } catch (SQLException ex) {
+                                ex.printStackTrace();
                             }
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
                         }
                     }
-                }
-            });
-            if (e.getButton() == 3) {
-                jPopupMenu.show(table, e.getX(), e.getY());
-            }
-        }
-    });
-    item.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String id = (String) table.getValueAt(row, 0);
-            int choice = JOptionPane.showConfirmDialog(tablePanel, "删除？？？");
-            if (choice == 0) {
-                if (row != -1) {
-                    model.removeRow(row);
-                }
-                try {
-                    ServiceFactory.getStudentServiceInstance().deleteById(id);
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                });
+                if (e.getButton() == 3) {
+                    jPopupMenu.show(table, e.getX(), e.getY());
                 }
             }
-        }
-    });
-
-    新增院系Button.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            boolean flag = leftPanel.isVisible();
-            if (flag == true) {
-                leftPanel.setVisible(false);
-            } else {
-                leftPanel.setVisible(true);
+        });
+        item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = (String) table.getValueAt(row, 0);
+                int choice = JOptionPane.showConfirmDialog(tablePanel, "删除？？？");
+                if (choice == 0) {
+                    if (row != -1) {
+                        model.removeRow(row);
+                    }
+                    try {
+                        ServiceFactory.getStudentServiceInstance().deleteById(id);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
-        }
-    });
+        });
 
-    刷新数据Button.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            showDepartments();
-        }
-    });
-
-    deNameField.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            deNameField.setText(" ");
-        }
-    });
-
-    选择Button.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File("G://image"));
-            int result = fileChooser.showOpenDialog(rootPanel);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                //选中文件
-                file = fileChooser.getSelectedFile();
-                //通过文件创建icon对象
-                Icon icon = new ImageIcon(file.getAbsolutePath());
-                //通过标签显示图片
-                logoLabel.setIcon(icon);
-                //设置标签可见
-                logoLabel.setVisible(true);
-                //将按钮隐藏
-                选择Button.setVisible(false);
+        新增院系Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean flag = leftPanel.isVisible();
+                if (flag == true) {
+                    leftPanel.setVisible(false);
+                } else {
+                    leftPanel.setVisible(true);
+                }
             }
-        }
-    });
+        });
 
-    新增Button.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //上传文件到OSS并返回外链
-            uploadFileUrl = AliOSSUtil.ossUpload(file);
-            //创建Department对象，并设置相应属性
-            Department department = new Department();
-            department.setDepartmentName(deNameField.getText().trim());
-            department.setLogo(uploadFileUrl);
-            //调用service实现新增功能
-            int n = ServiceFactory.getDepartmentServiceInstance().addDepartment(department);
-            if (n == 1) {
-                JOptionPane.showMessageDialog(rootPanel, "新增院系成功");
-                //新增成功后，将侧边栏隐藏
-                leftPanel.setVisible(false);
-                //刷新界面数据
+        刷新数据Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 showDepartments();
-                //将图片预览标签隐藏
-                logoLabel.setVisible(true);
-                //将选择图片的按钮可见
-                新增Button.setVisible(true);
-                //清空文本框
-                deNameField.setText("");
-            } else {
-                JOptionPane.showMessageDialog(rootPanel, "新增院系失败");
             }
-        }
-    });
+        });
 
-    leftPanel.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            logoLabel.removeAll();
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File("G:\\image"));
-            int result = fileChooser.showOpenDialog(rootPanel);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                //选中文件
-                file = fileChooser.getSelectedFile();
-                //指定缩略图大小
-                toPic = fileChooser.getSelectedFile();
-                //此处把图片压成400×500的缩略图
-                try {
-                    Thumbnails.of(file).size(230, 230).toFile(toPic);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+        deNameField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deNameField.setText(" ");
+            }
+        });
+
+        选择Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setCurrentDirectory(new File("G://image"));
+                int result = fileChooser.showOpenDialog(rootPanel);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    //选中文件
+                    file = fileChooser.getSelectedFile();
+                    //通过文件创建icon对象
+                    Icon icon = new ImageIcon(file.getAbsolutePath());
+                    //通过标签显示图片
+                    logoLabel.setIcon(icon);
+                    //设置标签可见
+                    logoLabel.setVisible(true);
+                    //将按钮隐藏
+                    选择Button.setVisible(false);
                 }
-                //通过文件创建icon对象
-                Icon icon = new ImageIcon(file.getAbsolutePath());
-                //通过标签显示图片
-                logoLabel.setIcon(icon);
-                //设置标签可见
-                logoLabel.setVisible(true);
             }
-        }
-    });
+        });
 
-    新增班级Button.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            CClass cClass = new CClass();
-            //创建Department对象，并设置相应属性
-            cClass.setClassName(CClassField.getText().trim());
-            cClass.setDepartmentId(departmentId);
-            //调用service实现新增功能
-            int n = ServiceFactory.getCClassServiceInstance().addCClass(cClass);
-            if (n == 1) {
-                JOptionPane.showMessageDialog(rootPanel, "新增院系成功");
-                try {
-                    showClassPanel();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
+        新增Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //上传文件到OSS并返回外链
+                uploadFileUrl = AliOSSUtil.ossUpload(file);
+                //创建Department对象，并设置相应属性
+                Department department = new Department();
+                department.setDepartmentName(deNameField.getText().trim());
+                department.setLogo(uploadFileUrl);
+                //调用service实现新增功能
+                int n = ServiceFactory.getDepartmentServiceInstance().addDepartment(department);
+                if (n == 1) {
+                    JOptionPane.showMessageDialog(rootPanel, "新增院系成功");
+                    //新增成功后，将侧边栏隐藏
+                    leftPanel.setVisible(false);
+                    //刷新界面数据
+                    showDepartments();
+                    //将图片预览标签隐藏
+                    logoLabel.setVisible(true);
+                    //将选择图片的按钮可见
+                    新增Button.setVisible(true);
+                    //清空文本框
+                    deNameField.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(rootPanel, "新增院系失败");
                 }
-                CClassField.setText("");
-            } else {
-                JOptionPane.showMessageDialog(rootPanel, "新增班级失败");
             }
-        }
-    });
-}
+        });
 
-private void showClassPanel() throws SQLException{
-    List<Department> departmentList = ServiceFactory.getDepartmentServiceInstance().selectAll();
-    showCombobox(departmentList);
-    showTree(departmentList);
-    showClasses(departmentList);
-}
+        leftPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                logoLabel.removeAll();
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setCurrentDirectory(new File("G:\\image"));
+                int result = fileChooser.showOpenDialog(rootPanel);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    //选中文件
+                    file = fileChooser.getSelectedFile();
+                    //指定缩略图大小
+                    toPic = fileChooser.getSelectedFile();
+                    //此处把图片压成400×500的缩略图
+                    try {
+                        Thumbnails.of(file).size(230, 230).toFile(toPic);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    //通过文件创建icon对象
+                    Icon icon = new ImageIcon(file.getAbsolutePath());
+                    //通过标签显示图片
+                    logoLabel.setIcon(icon);
+                    //设置标签可见
+                    logoLabel.setVisible(true);
+                }
+            }
+        });
 
-
-private void showCombobox(List<Department> departmentList) {
-    for (Department department : departmentList){
-        depcomboBox.addItem(department);
+        新增班级Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CClass cClass = new CClass();
+                //创建Department对象，并设置相应属性
+                cClass.setClassName(CClassField.getText().trim());
+                cClass.setDepartmentId(departmentId);
+                //调用service实现新增功能
+                int n = ServiceFactory.getCClassServiceInstance().addCClass(cClass);
+                if (n == 1) {
+                    JOptionPane.showMessageDialog(rootPanel, "新增院系成功");
+                    try {
+                        showClassPanel();
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                    CClassField.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(rootPanel, "新增班级失败");
+                }
+            }
+        });
     }
-}
+
+    private void showClassPanel() throws SQLException{
+        List<Department> departmentList = ServiceFactory.getDepartmentServiceInstance().selectAll();
+        showCombobox(departmentList);
+        showTree(departmentList);
+        showClasses(departmentList);
+    }
 
 
-private void showTree(List<Department>departmentList) throws SQLException{
+    private void showCombobox(List<Department> departmentList) {
+        for (Department department : departmentList){
+            depcomboBox.addItem(department);
+        }
+    }
+
+
+    private void showTree(List<Department>departmentList) throws SQLException{
         treePanel.removeAll();
-    //左侧树形结构根节点
-    DefaultMutableTreeNode top = new DefaultMutableTreeNode("南工院");
-    for (Department department : departmentList){
-        DefaultMutableTreeNode group = new DefaultMutableTreeNode(department.getDepartmentName());
-        top.add(group);
-        List<CClass> cClassList = ServiceFactory.
-                getCClassServiceInstance().selectByDepartmentId(department.getId());
-        for (CClass cClass : cClassList){
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode(cClass.getClassName());
-            group.add(node);
+        //左侧树形结构根节点
+        DefaultMutableTreeNode top = new DefaultMutableTreeNode("南工院");
+        for (Department department : departmentList){
+            DefaultMutableTreeNode group = new DefaultMutableTreeNode(department.getDepartmentName());
+            top.add(group);
+            List<CClass> cClassList = ServiceFactory.
+                    getCClassServiceInstance().selectByDepartmentId(department.getId());
+            for (CClass cClass : cClassList){
+                DefaultMutableTreeNode node = new DefaultMutableTreeNode(cClass.getClassName());
+                group.add(node);
+            }
         }
+        final  JTree tree = new JTree(top);
+        tree.setRowHeight(30);
+        tree.setFont(new Font("微软雅黑",Font.PLAIN,20));
+        treePanel.add(tree);
+        treePanel.revalidate();
     }
-    final  JTree tree = new JTree(top);
-    tree.setRowHeight(30);
-    tree.setFont(new Font("微软雅黑",Font.PLAIN,20));
-    treePanel.add(tree);
-    treePanel.revalidate();
-}
 
     private void showClasses(List<Department> departmentList) {
         classContentPanel.removeAll();

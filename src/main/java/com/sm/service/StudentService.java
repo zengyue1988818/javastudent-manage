@@ -15,4 +15,6 @@ public interface StudentService {
     int updateStudent (Student student) throws SQLException;
 
     int deleteById(String id) throws SQLException;
+    int insertStudent(Student student);
+    int addStudent(Student student);
 }
