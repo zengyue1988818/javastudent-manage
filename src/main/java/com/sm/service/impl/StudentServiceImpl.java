@@ -1,16 +1,21 @@
 package com.sm.service.impl;
 
 import com.sm.dao.StudentDAO;
+import com.sm.entity.Department;
 import com.sm.entity.Student;
 import com.sm.entity.StudentVO;
 import com.sm.factory.DAOFactory;
 import com.sm.service.StudentService;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StudentServiceImpl implements StudentService {
     private StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
+
     @Override
     public List<StudentVO> selectAll() {
         List<StudentVO> studentVOList = null;
@@ -32,7 +37,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentVO> selectByDepartmentId(int departmentId){
+    public List<StudentVO> selectByDepartmentId(int departmentId) {
         List<StudentVO> studentVOList = null;
         try {
             studentVOList = studentDAO.selectByDepartmentId(departmentId);
@@ -66,8 +71,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public int updateStudent(Student student) throws SQLException {
-        int n=0;
-        n=studentDAO.updateStudent(student);
+        int n = 0;
+        n = studentDAO.updateStudent(student);
         return n;
     }
 
@@ -95,12 +100,23 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public int addStudent(Student student) {
-            int n = 0;
-            try {
-                n = studentDAO.insertStudent(student);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return n;
+        int n = 0;
+        try {
+            n = studentDAO.insertStudent(student);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return n;
     }
+
+    @Override
+    public int countStudentByClassId(int classId) {
+        int n = 0;
+        try {
+            n = studentDAO.countByClassId(classId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return n;
+    }
+}

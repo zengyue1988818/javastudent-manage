@@ -4,6 +4,7 @@ import com.sm.dao.CClassDAO;
 import com.sm.entity.CClass;
 import com.sm.entity.Department;
 import com.sm.utils.JDBCUtil;
+import com.sun.org.apache.xerces.internal.xs.StringList;
 import jdk.nashorn.internal.runtime.regexp.joni.constants.CCSTATE;
 
 import java.sql.Connection;
@@ -75,6 +76,24 @@ public class CClassDAOImpl implements CClassDAO {
         pstmt.close();
         jdbcUtil.closeConnection();
         return cClassList;
+    }
+
+    @Override
+    public int countByDepartmentId(int departmentId) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "SELECT COUNT(*) FROM t_class WHERE department_id = ? ";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setInt(1,departmentId);
+        ResultSet rs  = pstmt.executeQuery();
+        int rowCount = 0;
+        if (rs.next()){
+            rowCount = rs.getInt(1);
+        }
+        rs.close();
+        pstmt.close();
+        jdbcUtil.closeConnection();
+        return  rowCount;
     }
 
     /**

@@ -12,6 +12,11 @@ public class Student {
     private String avatar;
     private String phone;
 
+    @Override
+    public String toString() {
+        return studentName;
+    }
+
     public String getId() {
         return id;
     }
@@ -74,17 +79,5 @@ public class Student {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" + "id='" + id + '\'' + "," +
-                " classId=" + classId + ", " +
-                "studentName='" + studentName + '\'' + "," +
-                " gender='" + gender + '\'' + "," +
-                " birthday=" + birthday + "," +
-                " address='" + address + '\'' + ", " +
-                "avatar='" + avatar + '\'' + ", " +
-                "phone='" + phone + '\'' + '}';
     }
 }

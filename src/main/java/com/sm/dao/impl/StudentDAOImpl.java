@@ -154,6 +154,43 @@ public class StudentDAOImpl implements StudentDAO {
         return n;
     }
 
+    @Override
+    public int countByDepartmentId(int departmentId) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "SELECT COUNT(*) FROM t_student t_student LEFT JOIN t_class t_class ON t_student.class_id = t_class.id\n"
+                + "LEFT JOIN t_department t_department ON t_class.department_id = t_department.id\n"
+                + "WHERE t_department.id = ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setInt(1,departmentId);
+        ResultSet rs = pstmt.executeQuery();
+        int rowCount = 0;
+        if (rs.next()){
+            rowCount = rs.getInt(1);
+        }
+        rs.close();
+        pstmt.close();
+        jdbcUtil.closeConnection();
+        return rowCount;
+    }
+    @Override
+    public int countByClassId(int classId) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "SELECT COUNT(*) FROM t_student  WHERE class_id=? ";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setInt(1, classId);
+        ResultSet rs = pstmt.executeQuery();
+        int rowCount = 0;
+        if (rs.next()) {
+            rowCount = rs.getInt(1);
+        }
+        return rowCount;
+    }
+
+
+
+
     private List<StudentVO> convert(ResultSet rs)throws SQLException{
         List<StudentVO> studentList = new ArrayList<>();
         while (rs.next()){

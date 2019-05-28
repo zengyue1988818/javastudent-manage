@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -43,5 +44,13 @@ public class CClassServiceImplTest {
     public void selectAll() {
         List<CClass> cClassList = cClassService.selectAll();
         cClassList.forEach(cClass -> System.out.println(cClass));
+    }
+    @Test
+    public void selectDepartmentInfo(){
+        List<Map> mapList = cClassService.selectClassInfo();
+        mapList.forEach(map -> {
+            System.out.println(map.get("department" + "," + map.get("classCount") + "个班，"
+            + map.get("studentCount") + "个学生"));
+        });
     }
 }

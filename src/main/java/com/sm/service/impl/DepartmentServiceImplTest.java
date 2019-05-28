@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -30,5 +31,13 @@ public class DepartmentServiceImplTest {
         department.setDepartmentName("测试院系2");
         department.setLogo("https://zystudent-manage.oss-cn-beijing.aliyuncs.com/img5f785718-0d40-430c-96b5-1c69411d7f2d.jpg");
         int n = departmentService.addDepartment(department);
+    }
+    @Test
+    public void selectDepartmentInfo(){
+        List<Map> mapList = departmentService.selectDepartmentInfo();
+        mapList.forEach(map -> {
+            System.out.println(map.get("department") + ","
+                    + map.get("classCount") + "个班，" + map.get("studentCount" + "个学生"));
+        });
     }
 }

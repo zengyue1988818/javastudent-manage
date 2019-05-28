@@ -23,4 +23,12 @@ public interface CClassDAO {
     int insertCClass(CClass cClass)throws SQLException;
     int deleteCClassById(int id) throws SQLException;
     List<CClass> selectAll()throws SQLException;
+
+    /**
+     * 根据院系id统计班级数
+     * @param departmentId
+     * @return
+     * @throws SQLException
+     */
+    int countByDepartmentId(int departmentId) throws SQLException;
 }
