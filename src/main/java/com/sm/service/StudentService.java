@@ -1,5 +1,7 @@
 package com.sm.service;
 
+import com.sm.entity.PunishVO;
+import com.sm.entity.RewardVO;
 import com.sm.entity.Student;
 import com.sm.entity.StudentVO;
 
@@ -13,7 +15,7 @@ public interface StudentService {
     List<StudentVO> selectByDepartmentId(int departmentId);
     List<StudentVO> selectByClassId(int classId);
     List<StudentVO> selectByKeywords(String keywords);
-    int updateStudent (Student student) throws SQLException;
+    int updateStudent(Student student) throws SQLException;
 
     int deleteById(String id) throws SQLException;
     int insertStudent(Student student);
@@ -30,4 +32,23 @@ public interface StudentService {
      * @return
      */
     int countStudentByClassId(int classId);
+
+    //奖励和惩罚
+    List<RewardVO> selectAllReward();
+    List<RewardVO> selectByStuId(String id);
+    List<RewardVO> selectRewByKeywords(String keywords) ;
+
+
+    List<PunishVO> selectAllPunish();
+    List<PunishVO> selectPunByKeywords(String keywords);
+
+    int delRewById(int rewId);
+    int upRew(RewardVO rewardVO);
+    int inRew(RewardVO rewardVO);
+
+    int delPunById(int punId);
+    int upPun(PunishVO punishVO);
+    int inPun(PunishVO punishVO);
+
+
 }

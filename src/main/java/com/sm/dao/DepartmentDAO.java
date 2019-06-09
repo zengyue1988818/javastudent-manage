@@ -19,7 +19,7 @@ public interface DepartmentDAO {
      * @return
      * @throws SQLException
      */
-    void deleteDepartmentById(long id ) throws SQLException;
+    void deleteDepartmentById(long id) throws SQLException;
 
     /**
      * 新增院系

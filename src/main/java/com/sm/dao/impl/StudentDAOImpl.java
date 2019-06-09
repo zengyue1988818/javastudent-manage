@@ -1,9 +1,7 @@
 package com.sm.dao.impl;
 
 import com.sm.dao.StudentDAO;
-import com.sm.entity.Department;
-import com.sm.entity.Student;
-import com.sm.entity.StudentVO;
+import com.sm.entity.*;
 import com.sm.utils.JDBCUtil;
 import com.sun.org.apache.xerces.internal.xs.StringList;
 
@@ -187,8 +185,205 @@ public class StudentDAOImpl implements StudentDAO {
         }
         return rowCount;
     }
+   //奖励和惩罚
+    @Override
+    public List<RewardVO> selectAllReward() throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "SELECT t1.student_name,logo,t2.class_name,t3.department_name,t4.*\n" +
+                "FROM t_reward t4\n" +
+                "LEFT JOIN t_student t1\n" +
+                "ON t4.`student_id` = t1.`id`\n" +
+                "LEFT JOIN t_class t2\n" +
+                "ON t1.`class_id` = t2.`id`\n" +
+                "LEFT JOIN t_department t3\n" +
+                "ON t2.`department_id` = t3.`id`";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery();
+        List<RewardVO> rewardVOList = convertReword(rs);
+        rs.close();
+        pstmt.close();
+        jdbcUtil.closeConnection();
+        return rewardVOList;
+    }
 
+    @Override
+    public List<RewardVO> selectByStuId(String id) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "SELECT t1.student_name,logo,t2.class_name,t3.department_name,t4.*\n" +
+                "FROM t_reward t4\n" +
+                "LEFT JOIN t_student t1\n" +
+                "ON t4.`student_id` = t1.`id`\n" +
+                "LEFT JOIN t_class t2\n" +
+                "ON t1.`class_id` = t2.`id`\n" +
+                "LEFT JOIN t_department t3\n" +
+                "ON t2.`department_id` = t3.`id`"+
+                "WHERE t4.student_id = ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1,id);
+        ResultSet rs = pstmt.executeQuery();
+        List<RewardVO> rewardVOList = convertReword(rs);
+        rs.close();
+        pstmt.close();
+        jdbcUtil.closeConnection();
+        return rewardVOList;
+    }
 
+    @Override
+    public List<RewardVO> selectRewByKeywords(String keywords) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "SELECT t1.student_name,logo,t2.class_name,t3.department_name,t4.*\n" +
+                "FROM t_reward t4\n" +
+                "LEFT JOIN t_student t1\n" +
+                "ON t4.`student_id` = t1.`id`\n" +
+                "LEFT JOIN t_class t2\n" +
+                "ON t1.`class_id` = t2.`id`\n" +
+                "LEFT JOIN t_department t3\n" +
+                "ON t2.`department_id` = t3.`id`" +
+                "WHERE t1.student_name LIKE ? OR t2.class_name LIKE ? OR t3.department_name LIKE ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1,"%" + keywords + "%");
+        pstmt.setString(2,"%" + keywords + "%");
+        pstmt.setString(3,"%" + keywords + "%");
+        ResultSet rs = pstmt.executeQuery();
+        List<RewardVO> rewardVOList = convertReword(rs);
+        rs.close();
+        pstmt.close();
+        jdbcUtil.closeConnection();
+        return rewardVOList;
+    }
+
+    @Override
+    public List<PunishVO> selectAllPunish() throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "SELECT t1.student_name,logo,t2.class_name,t3.department_name,t4.*\n" +
+                "FROM t_punish t4\n" +
+                "LEFT JOIN t_student t1\n" +
+                "ON t4.`student_id` = t1.`id`\n" +
+                "LEFT JOIN t_class t2\n" +
+                "ON t1.`class_id` = t2.`id`\n" +
+                "LEFT JOIN t_department t3\n" +
+                "ON t2.`department_id` = t3.`id`";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery();
+        List<PunishVO> punishVOList = convertPunish(rs);
+        rs.close();
+        pstmt.close();
+        jdbcUtil.closeConnection();
+        return punishVOList;
+    }
+
+    @Override
+    public List<PunishVO> selectPunByKeywords(String keywords) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "SELECT t1.student_name,logo,t2.class_name,t3.department_name,t4.*\n" +
+                "FROM t_punish t4\n" +
+                "LEFT JOIN t_student t1\n" +
+                "ON t4.`student_id` = t1.`id`\n" +
+                "LEFT JOIN t_class t2\n" +
+                "ON t1.`class_id` = t2.`id`\n" +
+                "LEFT JOIN t_department t3\n" +
+                "ON t2.`department_id` = t3.`id`" +
+                "WHERE t1.student_name LIKE ? OR t2.class_name LIKE ? OR t3.department_name LIKE ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1,"%" + keywords + "%");
+        pstmt.setString(2,"%" + keywords + "%");
+        pstmt.setString(3,"%" + keywords + "%");
+        ResultSet rs = pstmt.executeQuery();
+        List<PunishVO> punishVOList = convertPunish(rs);
+        rs.close();
+        pstmt.close();
+        jdbcUtil.closeConnection();
+        return punishVOList;
+    }
+
+    @Override
+    public int deleteRewById(int rewId) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "DELETE FROM t_reward  WHERE id = ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setInt(1,rewId);
+        int n = pstmt.executeUpdate();
+        pstmt.close();
+        connection.close();
+        return n;
+    }
+
+    @Override
+    public int updateRew(RewardVO rewardVO) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "UPDATE t_reward SET reward = ? WHERE id = ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1,rewardVO.getReward());
+        pstmt.setInt(2,rewardVO.getId());
+        int n = pstmt.executeUpdate();
+        pstmt.close();
+        connection.close();
+        return n;
+    }
+
+    @Override
+    public int insertRew(RewardVO rewardVO) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "INSERT INTO t_reward (student_id,reward,redate) VALUES (?,?,?)";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1,rewardVO.getStudentId());
+        pstmt.setString(2,rewardVO.getReward());
+        pstmt.setDate(3,new Date(rewardVO.getRewardDate().getTime()));
+        int n = pstmt.executeUpdate();
+        pstmt.close();
+        connection.close();
+        return n;
+    }
+
+    @Override
+    public int deletePunById(int punId) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "DELETE FROM t_punish  WHERE id = ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setInt(1,punId);
+        int n = pstmt.executeUpdate();
+        pstmt.close();
+        connection.close();
+        return n;
+    }
+
+    @Override
+    public int updatePun(PunishVO punishVO) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "UPDATE t_punish SET punish = ? WHERE id = ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1,punishVO.getPunish());
+        pstmt.setInt(2,punishVO.getId());
+        int n = pstmt.executeUpdate();
+        pstmt.close();
+        connection.close();
+        return n;
+    }
+
+    @Override
+    public int insertPun(PunishVO punishVO) throws SQLException {
+        JDBCUtil jdbcUtil = JDBCUtil.getInitJDBCUtil();
+        Connection connection = jdbcUtil.getConnection();
+        String sql = "INSERT INTO t_punish (student_id,punish,pudate) VALUES (?,?,?)";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1,punishVO.getStudentId());
+        pstmt.setString(2,punishVO.getPunish());
+        pstmt.setDate(3,new Date(punishVO.getPunishDate().getTime()));
+        int n = pstmt.executeUpdate();
+        pstmt.close();
+        connection.close();
+        return n;
+    }
 
 
     private List<StudentVO> convert(ResultSet rs)throws SQLException{
@@ -207,5 +402,38 @@ public class StudentDAOImpl implements StudentDAO {
             studentList.add(student);
         }
         return studentList;
+    }
+    private List<RewardVO> convertReword(ResultSet rs) throws SQLException{
+        List<RewardVO> rewardVOList = new ArrayList<>();
+        while (rs.next()){
+            RewardVO rewardVO = new RewardVO();
+//            rewardVO.setAvatar(rs.getString("avatar"));
+            rewardVO.setId(rs.getInt("id"));
+            rewardVO.setStudentName(rs.getString("student_name"));
+            rewardVO.setClassName(rs.getString("class_name"));
+            rewardVO.setDepartmentName(rs.getString("department_name"));
+            rewardVO.setReward(rs.getString("reward"));
+            rewardVO.setStudentId(rs.getString("student_id"));
+            rewardVO.setRewardDate(rs.getDate("redate"));
+            rewardVOList.add(rewardVO);
+        }
+        return rewardVOList;
+    }
+
+    private List<PunishVO> convertPunish(ResultSet rs) throws SQLException{
+        List<PunishVO> punishVOList  = new ArrayList<>();
+        while (rs.next()){
+            PunishVO punishVO = new PunishVO();
+//            punishVO.setAvatar(rs.getString("avatar"));
+            punishVO.setId(rs.getInt("id"));
+            punishVO.setStudentName(rs.getString("student_name"));
+            punishVO.setClassName(rs.getString("class_name"));
+            punishVO.setDepartmentName(rs.getString("department_name"));
+            punishVO.setPunish(rs.getString("punish"));
+            punishVO.setStudentId(rs.getString("student_id"));
+            punishVO.setPunishDate(rs.getDate("pudate"));
+            punishVOList.add(punishVO);
+        }
+        return punishVOList;
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.sm.frame.AdminMainFrame">
-  <grid id="27dc6" class="com.sm.ui.ImgPanel" binding="rootPanel" layout-manager="GridLayoutManager" row-count="3" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" class="com.sm.ui.ImgPanel" binding="rootPanel" layout-manager="GridLayoutManager" row-count="4" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="848" height="538"/>
+      <xy x="20" y="20" width="1018" height="557"/>
     </constraints>
     <properties>
       <autoscrolls value="true"/>
@@ -57,7 +57,7 @@
       </component>
       <grid id="756c1" binding="centerPanel" layout-manager="CardLayout" hgap="0" vgap="0">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="1" row-span="2" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-196618"/>
@@ -210,7 +210,7 @@
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints border-constraint="North"/>
                 <properties>
-                  <background color="-1206798"/>
+                  <background color="-1588238"/>
                   <preferredSize width="24" height="60"/>
                 </properties>
                 <border type="none"/>
@@ -559,7 +559,7 @@
               </grid>
             </children>
           </grid>
-          <grid id="dee77" binding="rewardPunishPanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="dee77" binding="rewardPunishPanel" layout-manager="GridLayoutManager" row-count="3" column-count="15" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <card name="Card4"/>
@@ -567,36 +567,100 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="3fdb4" class="javax.swing.JLabel">
+              <grid id="cad4a" binding="newPanel" layout-manager="CardLayout" hgap="0" vgap="0">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="15" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="adaa1" binding="rewardPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <card name="Card5"/>
+                    </constraints>
+                    <properties>
+                      <background color="-885370"/>
+                    </properties>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                  <grid id="b954f" binding="punishPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <card name="Card6"/>
+                    </constraints>
+                    <properties>
+                      <background color="-8260891"/>
+                    </properties>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                </children>
+              </grid>
+              <component id="bbf0d" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="15" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="奖惩卡"/>
+                  <font size="14" style="1"/>
+                  <foreground color="-1885629"/>
+                  <text value="注意，本公告由学校教务处发表，学生不得随意更改"/>
                 </properties>
               </component>
-              <hspacer id="e3a64">
+              <component id="da10b" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
-              </hspacer>
-              <vspacer id="bc14d">
+                <properties>
+                  <font size="14" style="1"/>
+                  <text value="奖励和惩罚人员名单如下表，若有疑问请到教务处询问"/>
+                </properties>
+              </component>
+              <component id="55b56" class="javax.swing.JButton" binding="惩罚Button" default-binding="true">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
-              </vspacer>
+                <properties>
+                  <text value="惩罚"/>
+                </properties>
+              </component>
+              <component id="d7f6a" class="javax.swing.JButton" binding="奖励Button" default-binding="true">
+                <constraints>
+                  <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="奖励"/>
+                </properties>
+              </component>
+              <component id="c9b8" class="javax.swing.JButton" binding="新增奖励Button" default-binding="true">
+                <constraints>
+                  <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="新增奖励"/>
+                </properties>
+              </component>
+              <component id="c445e" class="javax.swing.JButton" binding="新增惩罚Button" default-binding="true">
+                <constraints>
+                  <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="新增惩罚"/>
+                </properties>
+              </component>
             </children>
           </grid>
         </children>
       </grid>
       <hspacer id="f51b0">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
       <hspacer id="3cb5">
         <constraints>
-          <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="5" row-span="2" col-span="1" vsize-policy="1" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
       <vspacer id="230eb">
