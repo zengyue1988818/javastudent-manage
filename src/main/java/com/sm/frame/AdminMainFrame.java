@@ -6,13 +6,11 @@ import com.sm.factory.ServiceFactory;
 import com.sm.ui.ImgPanel;
 import com.sm.utils.AliOSSUtil;
 import net.coobird.thumbnailator.Thumbnails;
+import org.testng.reporters.jq.ReporterPanel;
 import sun.swing.table.DefaultTableCellHeaderRenderer;
 
-import javax.smartcardio.Card;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
@@ -22,8 +20,6 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,12 +28,12 @@ public class AdminMainFrame extends JFrame{
     private JButton 院系管理Button;
     private JButton 班级管理Button;
     private JButton 学生管理Button;
-    private JButton 奖惩管理Button;
+    private JButton 老师管理Button;
     private JPanel centerPanel;
     private JPanel departmentPanel;
     private JPanel classPanel;
     private JPanel studentPanel;
-    private JPanel rewardPunishPanel;
+    private JPanel teacherPanel;
     private JPanel topPanel;
     private JButton 新增院系Button;
     private JButton 刷新数据Button;
@@ -74,19 +70,22 @@ public class AdminMainFrame extends JFrame{
     private JButton 编辑Button;
     private JLabel stuAvatarLael;
     private JButton 初始界面Button;
+    private JButton 新增老师信息Button;
+    private JPanel teachertopPanel;
+    private JButton 初始化信息Button;
+    private  JPanel tePanel;
+    private JPanel mainPanel;
+    private JButton 老师信息Button;
+    private JPanel upPanel;
+    private JTextField mathField;
     private JPanel newPanel;
-    private JPanel rewardPanel;
-    private JPanel punishPanel;
-    private JButton 惩罚Button;
-    private JButton 奖励Button;
-    private JButton 新增奖励Button;
-    private JButton 新增惩罚Button;
     private Admin admin;
     private String uploadFileUrl;
     private File file,toPic;
     private int departmentId = 0;
     private int row;
     private Font font;
+    private JPanel depPanel;
 
     public AdminMainFrame(Admin admin) {
         font = new Font("微软雅黑",Font.BOLD,20);
@@ -113,7 +112,7 @@ public class AdminMainFrame extends JFrame{
 
         //获取centerPanel的布局,获取的是LayoutManager，向下转型为cardLayout
         CardLayout cardLayout = (CardLayout) centerPanel.getLayout();
-        CardLayout cardLayout1 = (CardLayout) newPanel.getLayout();
+        CardLayout cardLayout1 = (CardLayout) mainPanel.getLayout();
 
 
 
@@ -136,23 +135,27 @@ public class AdminMainFrame extends JFrame{
             }
         });
 
-        奖惩管理Button.addActionListener(new ActionListener() {
+        老师管理Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(centerPanel, "Card4");
             }
+
         });
+
+
 
         学生管理Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(centerPanel, "Card3");
                 //右侧个人信息面板加入背景图
-                infoPanel.setFileName("bg4.jpg");
+                infoPanel.setFileName("allbg.jpg");
                 infoPanel.repaint();
-                //调用显示学生数据的办法
-                List<StudentVO> studentList = ServiceFactory.getStudentServiceInstance().selectAll();
-                showStudentTable(studentList);
+                //调用显示学生成绩数据的办法
+                List<ScoreVO> scoreList = ServiceFactory.getScoreServiceInstance().selectAllScore();
+                showStudentTable(scoreList);
+                //选择框的切换
                 Department tip1 = new Department();
                 tip1.setDepartmentName("请选择院系");
                 comboBox1.addItem(tip1);
@@ -176,8 +179,8 @@ public class AdminMainFrame extends JFrame{
                             if (index != 0) {
                                 departmentId = comboBox1.getItemAt(index).getId();
                                 //获取院系的学生，显示在表格中
-                                List<StudentVO> studentList = ServiceFactory.getStudentServiceInstance().selectByDepartmentId(departmentId);
-                                showStudentTable(studentList);
+                                List<ScoreVO> scoreList = ServiceFactory.getScoreServiceInstance().selectByDepartmentId(departmentId);
+                                showStudentTable(scoreList);
                                 //二级联动
                                 List<CClass> cClassList = ServiceFactory.getCClassServiceInstance().selectByDepartmentId(departmentId);
                                 comboBox2.removeAllItems();
@@ -199,8 +202,8 @@ public class AdminMainFrame extends JFrame{
                             int index = comboBox2.getSelectedIndex();
                             if (index != 0) {
                                 int classId = comboBox2.getItemAt(index).getId();
-                                List<StudentVO> studentList = ServiceFactory.getStudentServiceInstance().selectByClassId(classId);
-                                showStudentTable(studentList);
+                                List<ScoreVO> scoreList = ServiceFactory.getScoreServiceInstance().selectByClassId(classId);
+                                showStudentTable(scoreList);
                             }
                         }
                     }
@@ -221,7 +224,7 @@ public class AdminMainFrame extends JFrame{
         新增学生Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddFrame(AdminMainFrame.this);
+                new AddScoreFrame(AdminMainFrame.this);
                 AdminMainFrame.this.setEnabled(true);
             }
         });
@@ -230,16 +233,16 @@ public class AdminMainFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String keywords = searchField.getText();
-                List<StudentVO> studentList = ServiceFactory.getStudentServiceInstance().selectByKeywords(keywords);
-                showStudentTable(studentList);
+                List<ScoreVO> scoreList = ServiceFactory.getScoreServiceInstance().selectByKeywords(keywords);
+                showStudentTable(scoreList);
             }
         });
 
         初始界面Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<StudentVO> studentList = ServiceFactory.getStudentServiceInstance().selectAll();
-                showStudentTable(studentList);
+                List<ScoreVO> scoreList = ServiceFactory.getScoreServiceInstance().selectAllScore();
+                showStudentTable(scoreList);
 
                 comboBox1.setSelectedIndex(0);
                 comboBox2.removeAllItems();
@@ -263,36 +266,55 @@ public class AdminMainFrame extends JFrame{
             }
         });
 
-        奖励Button.addActionListener(new ActionListener() {
+//        奖励Button.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                cardLayout1.show(newPanel,"Card5");
+//                List<RewardVO> rewardVOList = ServiceFactory.getStudentServiceInstance().selectAllReward();
+//                showReward(rewardVOList);
+//            }
+//        });
+//
+//        惩罚Button.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                cardLayout1.show(newPanel,"Card6");
+//                List<PunishVO> punishVOList = ServiceFactory.getStudentServiceInstance().selectAllPunish();
+//                showPunish(punishVOList);
+//            }
+//
+//        });
+
+//        新增奖励Button.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                new AddRewardFrame(AdminMainFrame.this);
+//                AdminMainFrame.this.setEnabled(true);
+//            }
+//        });
+
+        老师信息Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout1.show(newPanel,"Card5");
-                List<RewardVO> rewardVOList = ServiceFactory.getStudentServiceInstance().selectAllReward();
-                showReward(rewardVOList);
+                cardLayout1.show(mainPanel,"Card5");
+                List<TeacherVO> teacherVOList = ServiceFactory.getTeacherServiceInstance().selectAllTeacher();
+                showTeacher(teacherVOList);
             }
         });
 
-        惩罚Button.addActionListener(new ActionListener() {
+        新增老师信息Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout1.show(newPanel,"Card6");
-                List<PunishVO> punishVOList = ServiceFactory.getStudentServiceInstance().selectAllPunish();
-                showPunish(punishVOList);
-            }
-
-        });
-
-        新增奖励Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AddRewardFrame(AdminMainFrame.this);
+                new AddTeacherFrame(AdminMainFrame.this);
                 AdminMainFrame.this.setEnabled(true);
             }
         });
     }
 
 
-    public void showStudentTable(List<StudentVO> studentList) {
+
+
+    public void showStudentTable(List<ScoreVO> scoreList) {
         tablePanel.removeAll();
         //获得所有学生视图数据
 //     studentList = ServiceFactory.getStudentServiceInstance().selectAll();
@@ -302,11 +324,11 @@ public class AdminMainFrame extends JFrame{
         DefaultTableModel model = new DefaultTableModel();
         table.setModel(model);
         //表头内容
-        model.setColumnIdentifiers(new String[]{"学号", "院系", "班级", "姓名", "性别", "地址", "手机号", "出生日期", "头像"});
+        model.setColumnIdentifiers(new String[]{"学号", "院系", "班级", "姓名", "性别", "语文", "英语", "数学", "头像"});
         //遍历List,转成Obiect数组
-        for (StudentVO student : studentList) {
-            Object[] object = new Object[]{student.getId(), student.getDepartmentName(), student.getClassName(),
-                    student.getStudentName(), student.getGender(), student.getAddress(), student.getPhone(), student.getBirthday(), student.getAvatar()};
+        for (ScoreVO score : scoreList) {
+            Object[] object = new Object[]{score.getId(), score.getDepartmentName(), score.getClassName(),
+                    score.getStudentName(), score.getGender(), score.getChinese(), score.getEnglish(), score.getMath(), score.getAvatar()};
             model.addRow(object);
         }
         //将最后一列隐藏头像地址不显示在表格中
@@ -335,8 +357,8 @@ public class AdminMainFrame extends JFrame{
         JScrollPane scrollPane = new JScrollPane(table, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         tablePanel.add(scrollPane);
         tablePanel.revalidate();
-        //表格内容选择监听，点击一行，在右面显示这个学生信息
 
+        //表格内容选择监听，点击一行，在右面显示这个学生信息
         JPopupMenu jPopupMenu = new JPopupMenu();
         JMenuItem item = new JMenuItem("删除");
         jPopupMenu.add(item);
@@ -409,7 +431,7 @@ public class AdminMainFrame extends JFrame{
                         model.removeRow(row);
                     }
                     try {
-                        ServiceFactory.getStudentServiceInstance().deleteById(id);
+                        ServiceFactory.getScoreServiceInstance().deleteById(id);
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -697,6 +719,7 @@ public class AdminMainFrame extends JFrame{
 //            depPanel.setBorder(BorderFactory.createTitledBorder(department.getDepartmentName()));
 //            //新建一个Label用来放置院系logo，并指定大小
 //            JLabel logoLabel = new JLabel("<html><img src='" + department.getLogo() + "' width=200 height=200/></html>");
+
 //            JButton delBtn = new JButton("删除");
 //            delBtn.addMouseListener(new MouseAdapter() {
 //                @Override
@@ -705,7 +728,7 @@ public class AdminMainFrame extends JFrame{
 //                    if (n == JOptionPane.YES_OPTION) {
 //                        contentPanel.remove(depPanel);
 //                        contentPanel.repaint();
-//                        ServiceFactory.getDepartmentServiceInstance().deleteDepartment(department.getId());
+//                        ServiceFactory.getDepartmentServiceInstance().deleteDepartment(departmentId);
 //                    }
 //                }
 //            });
@@ -719,186 +742,297 @@ public class AdminMainFrame extends JFrame{
 //            contentPanel.revalidate();
     }
 
-
-    private void showReward(List<RewardVO> rewardVOList) {
-        GridLayout gridLayout = new GridLayout(1,20,20,20);
-        rewardPanel.setBorder(new EmptyBorder(15,10,15,10));
-        rewardPanel.setLayout(gridLayout);
-        rewardPanel.setBackground(Color.PINK);
-
-        for (RewardVO rewardVO : rewardVOList ){
-            //给每个院系创建一个面板
-            JPanel jPanel = new JPanel();
-            jPanel.setLayout(new GridLayout(10,1));
-            JLabel deLabel = new JLabel("院系："+rewardVO.getDepartmentName());
-            deLabel.setFont(font);
-            jPanel.add(deLabel);
-            JLabel claLabel = new JLabel("班级："+rewardVO.getClassName());
-            claLabel.setFont(font);
-            jPanel.add(claLabel);
-            JLabel xhLabel = new JLabel("学号：");
-            xhLabel.setFont(font);
-            jPanel.add(xhLabel);
-            JLabel idLabel1 = new JLabel(rewardVO.getStudentId());
-            idLabel1.setFont(font);
-            jPanel.add(idLabel1);
-            JLabel naLabel = new JLabel("姓名："+rewardVO.getStudentName());
-            naLabel.setFont(font);
-            jPanel.add(naLabel);
-            JLabel reDateLabel = new JLabel("日期：" + rewardVO.getRewardDate());
-            reDateLabel.setFont(font);
-            jPanel.add(reDateLabel);
-            JTextArea reArea = new JTextArea(rewardVO.getReward());
-            reArea.setBackground(new Color(236,217,200));
-            reArea.setFont(font);
-            reArea.setLineWrap(true);
-            reArea.setWrapStyleWord(true);
-            reArea.setEditable(false);
-            reArea.setEnabled(false);
-            jPanel.add(reArea);
-            //删除学生信息
-            JButton dereButton = new JButton("删除");
-            dereButton.setBounds(330,5,100,30);
-            dereButton.setFont(font);
-            jPanel.add(dereButton);
-            JButton upreOKButton = new JButton("确定");
-            upreOKButton.setBounds(330,130,100,30);
-            upreOKButton.setFont(font);
-            upreOKButton.setVisible(false);
-            jPanel.add(upreOKButton);
-            dereButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    int result = JOptionPane.showConfirmDialog(null,"是否确认删除？");
-                    //判断用户是否点击
-                    if (result == JOptionPane.OK_OPTION){
-                        //从流式面板移除当前1这个人的布局
-                        rewardPanel.remove(jPanel);
-                        //删除这行记录
-                        try {
-                            ServiceFactory.getStudentServiceInstance().deleteById(String.valueOf(rewardVO.getId()));
-                        } catch (SQLException e1) {
-                            e1.printStackTrace();
-                        }
-                        jPanel.revalidate();
-                    }
-                }
-            });
-            reArea.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (e.getClickCount() == 2){
-                        reArea.setEditable(true);
-                        reArea.setEnabled(true);
-                        upreOKButton.setVisible(true);
-                        upreOKButton.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                rewardVO.setId(Integer.valueOf(idLabel1.getText()));
-                                rewardVO.setReward(reArea.getText());
-                                ServiceFactory.getStudentServiceInstance().upRew(rewardVO);
-                                reArea.setEditable(false);
-                                reArea.setEnabled(false);
-                                upreOKButton.setVisible(false);
-                                jPanel.revalidate();
-                            }
-                        });
-                    }
-                }
-            });
-            rewardPanel.add(jPanel);
-
-        }
-    }
-
-    private void showPunish(List<PunishVO> punishVOList) {
-        GridLayout gridLayout = new GridLayout(1,6,20,20);
-        punishPanel.setBorder(new EmptyBorder(15,10,15,10));
-        punishPanel.setLayout(gridLayout);
-        punishPanel.setBackground(Color.PINK);
-        for (PunishVO punishVO : punishVOList){
-            //给每个院系创建一个面板
+    private void  showTeacher(List<TeacherVO> teacherVOList){
+        GridLayout gridLayout = new GridLayout(0,3,20,20);
+        tePanel.setBorder(new EmptyBorder(15,10,15,10));
+        tePanel.setBounds(100,100,200,300);
+        tePanel.setLayout(gridLayout);
+        tePanel.setBackground(Color.PINK);
+        for (TeacherVO teacherVO : teacherVOList){
+            //给每个老师创建一个面板
             JPanel jPanel1 = new JPanel();
-            jPanel1.setLayout(new GridLayout(10,1));
-            JLabel deLabel = new JLabel("院系："+punishVO.getDepartmentName());
+            jPanel1.setLayout(new GridLayout(7,1));
+            jPanel1.setPreferredSize(new Dimension(200,400));
+            System.out.println("1");
+            JLabel deLabel = new JLabel("老师工号：" + teacherVO.getTeacherId());
+            deLabel.setBounds(50,50,200,200);
             deLabel.setFont(font);
             jPanel1.add(deLabel);
-            JLabel claLabel = new JLabel("班级："+punishVO.getClassName());
-            claLabel.setFont(font);
-            jPanel1.add(claLabel);
-            JLabel xhLabel = new JLabel("学号：");
-            xhLabel.setFont(font);
-            jPanel1.add(xhLabel);
-            JLabel idLabel1 = new JLabel(punishVO.getStudentId());
-            idLabel1.setFont(font);
-            jPanel1.add(idLabel1);
-            JLabel naLabel = new JLabel("姓名："+punishVO.getStudentName());
-            naLabel.setFont(font);
-            jPanel1.add(naLabel);
-            JLabel reDateLabel = new JLabel("日期：" + punishVO.getPunishDate());
-            reDateLabel.setFont(font);
-            jPanel1.add(reDateLabel);
-            JTextArea puArea = new JTextArea(punishVO.getPunish());
-            puArea.setBackground(new Color(236,217,200));
-            puArea.setFont(font);
-            puArea.setLineWrap(true);
-            puArea.setWrapStyleWord(true);
-            puArea.setEditable(false);
-            puArea.setEnabled(false);
-            jPanel1.add(puArea);
-            //删除学生信息
-            JButton dereButton = new JButton("删除");
-            dereButton.setBounds(330,5,100,30);
-            dereButton.setFont(font);
-            jPanel1.add(dereButton);
-            JButton uppuOKButton = new JButton("确定");
-            uppuOKButton.setBounds(330,130,100,30);
-            uppuOKButton.setFont(font);
-            uppuOKButton.setVisible(false);
-            jPanel1.add(uppuOKButton);
-            dereButton.addActionListener(new ActionListener() {
+            JLabel nameLabel = new JLabel("老师姓名：" + teacherVO.getName());
+            nameLabel.setBounds(250,50,200,200);
+            nameLabel.setFont(font);
+            jPanel1.add(nameLabel);
+            JLabel genderLabel = new JLabel("老师性别：" + teacherVO.getGender());
+            genderLabel.setBounds(550,50,200,200);
+            genderLabel.setFont(font);
+            jPanel1.add(genderLabel);
+            JLabel telLabel = new JLabel("老师电话：" + teacherVO.getTel());
+            telLabel.setBounds(750,50,200,200);
+            telLabel.setFont(font);
+            jPanel1.add(telLabel);
+            JLabel classLabel = new JLabel("老师课程：" + teacherVO.getCourse());
+            classLabel.setBounds(950,50,200,200);
+            classLabel.setFont(font);
+            jPanel1.add(classLabel);
+
+            tePanel.add(jPanel1);
+            //删除老师信息
+            JButton deleButton = new JButton("删除");
+            deleButton.setBounds(330,5,100,30);
+            deleButton.setFont(font);
+            jPanel1.add(deleButton);
+            JButton upOkButton = new JButton("确定");
+            upOkButton.setBounds(330,130,100,30);
+            upOkButton.setFont(font);
+            upOkButton.setVisible(false);
+            jPanel1.add(upOkButton);
+            deleButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int result = JOptionPane.showConfirmDialog(null,"是否确认删除？");
                     //判断用户是否点击
                     if (result == JOptionPane.OK_OPTION){
-                        //从流式面板移除当前1这个人的布局
-                        rewardPanel.remove(jPanel1);
+                        //从流式面板中移除当前这个老师的布局
+                        tePanel.remove(jPanel1);
                         //删除这行记录
-                        try {
-                            ServiceFactory.getStudentServiceInstance().deleteById(String.valueOf(punishVO.getId()));
-                        } catch (SQLException e1) {
-                            e1.printStackTrace();
-                        }
-                        jPanel1.revalidate();
+                            ServiceFactory.getTeacherServiceInstance().deleteTeacherById(Integer.valueOf(teacherVO.getId()));
                     }
                 }
             });
-            puArea.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (e.getClickCount() == 2){
-                        puArea.setEditable(true);
-                        puArea.setEnabled(true);
-                        uppuOKButton.setVisible(true);
-                        uppuOKButton.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                punishVO.setId(Integer.valueOf(idLabel1.getText()));
-                                punishVO.setPunish(puArea.getText());
-                                ServiceFactory.getStudentServiceInstance().upPun(punishVO);
-                                puArea.setEditable(false);
-                                puArea.setEnabled(false);
-                                uppuOKButton.setVisible(false);
-                                jPanel1.revalidate();
-                            }
-                        });
-                    }
-                }
-            });
-            punishPanel.add(jPanel1);
+            tePanel.add(jPanel1);
         }
     }
+
+
+//    private void showReward(List<RewardVO> rewardVOList) {
+//        GridLayout gridLayout = new GridLayout(1,20,20,20);
+//        rewardPanel.setBorder(new EmptyBorder(15,10,15,10));
+//        rewardPanel.setLayout(gridLayout);
+//        rewardPanel.setBackground(Color.PINK);
+//
+//        for (RewardVO rewardVO : rewardVOList ){
+//            //给每个院系创建一个面板
+//            JPanel jPanel = new JPanel();
+//            jPanel.setLayout(new GridLayout(10,1));
+//            JLabel deLabel = new JLabel("院系："+rewardVO.getDepartmentName());
+//            deLabel.setFont(font);
+//            jPanel.add(deLabel);
+//            JLabel claLabel = new JLabel("班级："+rewardVO.getClassName());
+//            claLabel.setFont(font);
+//            jPanel.add(claLabel);
+//            JLabel xhLabel = new JLabel("学号：");
+//            xhLabel.setFont(font);
+//            jPanel.add(xhLabel);
+//            JLabel idLabel1 = new JLabel(rewardVO.getStudentId());
+//            idLabel1.setFont(font);
+//            jPanel.add(idLabel1);
+//            JLabel naLabel = new JLabel("姓名："+rewardVO.getStudentName());
+//            naLabel.setFont(font);
+//            jPanel.add(naLabel);
+//            JLabel reDateLabel = new JLabel("日期：" + rewardVO.getRewardDate());
+//            reDateLabel.setFont(font);
+//            jPanel.add(reDateLabel);
+//            JTextArea reArea = new JTextArea(rewardVO.getReward());
+//            reArea.setBackground(new Color(236,217,200));
+//            reArea.setFont(font);
+//            reArea.setLineWrap(true);
+//            reArea.setWrapStyleWord(true);
+//            reArea.setEditable(false);
+//            reArea.setEnabled(false);
+//            jPanel.add(reArea);
+//            //删除学生信息
+//            JButton dereButton = new JButton("删除");
+//            dereButton.setBounds(330,5,100,30);
+//            dereButton.setFont(font);
+//            jPanel.add(dereButton);
+//            JButton upreOKButton = new JButton("确定");
+//            upreOKButton.setBounds(330,130,100,30);
+//            upreOKButton.setFont(font);
+//            upreOKButton.setVisible(false);
+//            jPanel.add(upreOKButton);
+//            dereButton.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    int result = JOptionPane.showConfirmDialog(null,"是否确认删除？");
+//                    //判断用户是否点击
+//                    if (result == JOptionPane.OK_OPTION){
+//                        //从流式面板移除当前1这个人的布局
+//                        rewardPanel.remove(jPanel);
+//                        //删除这行记录
+//                        try {
+//                            ServiceFactory.getStudentServiceInstance().deleteById(String.valueOf(rewardVO.getId()));
+//                        } catch (SQLException e1) {
+//                            e1.printStackTrace();
+//                        }
+//                        jPanel.revalidate();
+//                    }
+//                }
+//            });
+//            reArea.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                    if (e.getClickCount() == 2){
+//                        reArea.setEditable(true);
+//                        reArea.setEnabled(true);
+//                        upreOKButton.setVisible(true);
+//                        upreOKButton.addActionListener(new ActionListener() {
+//                            @Override
+//                            public void actionPerformed(ActionEvent e) {
+//                                rewardVO.setId(Integer.valueOf(idLabel1.getText()));
+//                                rewardVO.setReward(reArea.getText());
+//                                ServiceFactory.getStudentServiceInstance().upRew(rewardVO);
+//                                reArea.setEditable(false);
+//                                reArea.setEnabled(false);
+//                                upreOKButton.setVisible(false);
+//                                jPanel.revalidate();
+//                            }
+//                        });
+//                    }
+//                }
+//            });
+//            rewardPanel.add(jPanel);
+//
+//        }
+//    }
+//
+//    private void showPunish(List<PunishVO> punishVOList) {
+//        GridLayout gridLayout = new GridLayout(1,6,20,20);
+//        punishPanel.setBorder(new EmptyBorder(15,10,15,10));
+//        punishPanel.setLayout(gridLayout);
+//        punishPanel.setBackground(Color.PINK);
+//        for (PunishVO punishVO : punishVOList){
+//            //给每个院系创建一个面板
+//            JPanel jPanel1 = new JPanel();
+//            jPanel1.setLayout(new GridLayout(10,1));
+//            JLabel deLabel = new JLabel("院系："+punishVO.getDepartmentName());
+//            deLabel.setFont(font);
+//            jPanel1.add(deLabel);
+//            JLabel claLabel = new JLabel("班级："+punishVO.getClassName());
+//            claLabel.setFont(font);
+//            jPanel1.add(claLabel);
+//            JLabel xhLabel = new JLabel("学号：");
+//            xhLabel.setFont(font);
+//            jPanel1.add(xhLabel);
+//            JLabel idLabel1 = new JLabel(punishVO.getStudentId());
+//            idLabel1.setFont(font);
+//            jPanel1.add(idLabel1);
+//            JLabel naLabel = new JLabel("姓名："+punishVO.getStudentName());
+//            naLabel.setFont(font);
+//            jPanel1.add(naLabel);
+//            JLabel reDateLabel = new JLabel("日期：" + punishVO.getPunishDate());
+//            reDateLabel.setFont(font);
+//            jPanel1.add(reDateLabel);
+//            JTextArea puArea = new JTextArea(punishVO.getPunish());
+//            puArea.setBackground(new Color(236,217,200));
+//            puArea.setFont(font);
+//            puArea.setLineWrap(true);
+//            puArea.setWrapStyleWord(true);
+//            puArea.setEditable(false);
+//            puArea.setEnabled(false);
+//            jPanel1.add(puArea);
+//            //删除学生信息
+//            JButton dereButton = new JButton("删除");
+//            dereButton.setBounds(330,5,100,30);
+//            dereButton.setFont(font);
+//            jPanel1.add(dereButton);
+//            JButton uppuOKButton = new JButton("确定");
+//            uppuOKButton.setBounds(330,130,100,30);
+//            uppuOKButton.setFont(font);
+//            uppuOKButton.setVisible(false);
+//            jPanel1.add(uppuOKButton);
+//            dereButton.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    int result = JOptionPane.showConfirmDialog(null,"是否确认删除？");
+//                    //判断用户是否点击
+//                    if (result == JOptionPane.OK_OPTION){
+//                        //从流式面板移除当前1这个人的布局
+//                        rewardPanel.remove(jPanel1);
+//                        //删除这行记录
+//                        try {
+//                            ServiceFactory.getStudentServiceInstance().deleteById(String.valueOf(punishVO.getId()));
+//                        } catch (SQLException e1) {
+//                            e1.printStackTrace();
+//                        }
+//                        jPanel1.revalidate();
+//                    }
+//                }
+//            });
+//            puArea.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                    if (e.getClickCount() == 2){
+//                        puArea.setEditable(true);
+//                        puArea.setEnabled(true);
+//                        uppuOKButton.setVisible(true);
+//                        uppuOKButton.addActionListener(new ActionListener() {
+//                            @Override
+//                            public void actionPerformed(ActionEvent e) {
+//                                punishVO.setId(Integer.valueOf(idLabel1.getText()));
+//                                punishVO.setPunish(puArea.getText());
+//                                ServiceFactory.getStudentServiceInstance().upPun(punishVO);
+//                                puArea.setEditable(false);
+//                                puArea.setEnabled(false);
+//                                uppuOKButton.setVisible(false);
+//                                jPanel1.revalidate();
+//                            }
+//                        });
+//                    }
+//                }
+//            });
+//            punishPanel.add(jPanel1);
+//        }
+//    }
+
+//    private void showScore(List<ScoreVO> scoreVOList){
+//        GridLayout gridLayout = new GridLayout(2,4,20,20);
+//        upPanel.setBorder(new EmptyBorder(15,10,15,10));
+//        upPanel.setLayout(gridLayout);
+//        upPanel.setBackground(Color.PINK);
+//        for (ScoreVO scoreVO : scoreVOList){
+//            //每个院系创建一个面板
+//            JPanel jPanel1 = new JPanel();
+//            jPanel1.setLayout(new GridLayout(10,1));
+//            JLabel idLabel = new JLabel("ID" + scoreVO.getId());
+//            idLabel.setFont(font);
+//            jPanel1.add(idLabel);
+//            JLabel stuLabel = new JLabel("学生学号" + scoreVO.getStudentId());
+//            stuLabel.setFont(font);
+//            jPanel1.add(stuLabel);
+//            JLabel chinLabel = new JLabel("语文" + scoreVO.getChinese());
+//            chinLabel.setFont(font);
+//            jPanel1.add(chinLabel);
+//            JLabel engLabel = new JLabel("英语" + scoreVO.getEnglish());
+//            engLabel.setFont(font);
+//            jPanel1.add(engLabel);
+//            JLabel maLabel = new JLabel("数学" + scoreVO.getMath());
+//            maLabel.setFont(font);
+//            jPanel1.add(maLabel);
+//            //删除学生信息
+//            JButton deButton = new JButton("删除");
+//            deButton.setBounds(330,5,100,30);
+//            deButton.setFont(font);
+//            jPanel1.add(deButton);
+//            JButton upBotton = new JButton("确定");
+//            upBotton.setBounds(330,130,100,30);
+//            upBotton.setFont(font);
+//            upBotton.setVisible(false);
+//            jPanel1.add(upBotton);
+//            deButton.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    int result = JOptionPane.showConfirmDialog(null,"是否确认删除？");
+//                    //判断用户是否点击
+//                    if (result ==JOptionPane.OK_OPTION){
+//                        upPanel.remove(jPanel1);
+//                        ServiceFactory.getScoreServiceInstance().delScoById(scoreVO.getId());
+//                        jPanel1.revalidate();
+//                    }
+//                }
+//            });
+//            upPanel.add(jPanel1);
+//        }
+//    }
 
     public static void main(String[] args) throws Exception{
         String lookAndFeel = UIManager.getSystemLookAndFeelClassName();

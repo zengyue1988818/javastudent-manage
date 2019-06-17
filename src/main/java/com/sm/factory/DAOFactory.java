@@ -20,6 +20,21 @@ public class DAOFactory {
     public static StudentDAO getStudentDAOInstance(){
         return new StudentDAOImpl();
     }
+    public static  TeacherDAO getTeacherDAOInstance(){
+        return new TeacherDAOImpl();
+    }
+    public static ScoreDAO getScoreDAOInstance(){
+        return new ScoreDAOImpl();
+    }
+    public static StudentOneDAO getStudentOneDAOInstance(){
+        return new StudentOneDAOImpl();
+    }
+    public static StuDAO getStuDAOInstance(){
+        return new StuDAOImpl();
+    }
+    public static TeaDAO getTeaDAOInstance(){
+        return new TeaDAOImpl();
+    }
 }
 
 
