@@ -199,7 +199,7 @@ public class ScoreDAOImpl implements ScoreDAO {
             ScoreVO  score = new ScoreVO();
             score.setId(rs.getString("id"));
             score.setStudentName(rs.getString("student_name"));
-            score.setClassName(rs.getString("class_name"));
+            score.setClassName(rs.getString("class_id"));
             score.setGender(rs.getString("gender"));
             score.setAvatar(rs.getString("avatar"));
             score.setChinese(rs.getString("chinese"));

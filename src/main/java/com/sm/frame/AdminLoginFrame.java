@@ -10,6 +10,8 @@ import com.sm.utils.ResultEntity;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AdminLoginFrame extends JFrame{
     private ImgPanel rootPanel;
@@ -20,6 +22,7 @@ public class AdminLoginFrame extends JFrame{
     private JRadioButton 学生RadioButton;
     private JRadioButton 老师RadioButton;
     private JRadioButton 管理员RadioButton;
+    private JLabel closeLabel;
 
     public AdminLoginFrame() {
         //设置需要的背景图片
@@ -38,7 +41,12 @@ public class AdminLoginFrame extends JFrame{
         group.add(老师RadioButton);
         group.add(管理员RadioButton);
 
-
+        closeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                AdminLoginFrame.this.dispose();
+            }
+        });
         登录Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

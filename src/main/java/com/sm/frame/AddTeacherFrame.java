@@ -51,6 +51,7 @@ public class AddTeacherFrame extends JFrame {
 //        for (TeacherVO teacherVO : teacherVOList1){
 //            xingmingcomboBox.addItem(teacherVO);
 //        }
+
         closeLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

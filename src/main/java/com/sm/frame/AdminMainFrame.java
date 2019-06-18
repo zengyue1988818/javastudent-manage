@@ -73,7 +73,7 @@ public class AdminMainFrame extends JFrame{
     private JButton 新增老师信息Button;
     private JPanel teachertopPanel;
     private JButton 初始化信息Button;
-    private  JPanel tePanel;
+    private JPanel tePanel;
     private JPanel mainPanel;
     private JButton 老师信息Button;
     private JPanel upPanel;
@@ -376,6 +376,7 @@ public class AdminMainFrame extends JFrame{
                 stuPhoneField.setText(table.getValueAt(row, 6).toString());
                 stuBirthdayLabel.setText(table.getValueAt(row, 7).toString());
                 stuAvatarLael.setText("<html><img src='" + table.getValueAt(row, 8).toString() + "'/></html>");
+
                 //显示编辑按钮
                 编辑Button.setVisible(true);
                 编辑Button.setText("编辑");
@@ -553,7 +554,7 @@ public class AdminMainFrame extends JFrame{
                 //调用service实现新增功能
                 int n = ServiceFactory.getCClassServiceInstance().addCClass(cClass);
                 if (n == 1) {
-                    JOptionPane.showMessageDialog(rootPanel, "新增院系成功");
+                    JOptionPane.showMessageDialog(rootPanel, "新增院系失败");
                     try {
                         showClassPanel();
                     } catch (SQLException e1) {
@@ -561,7 +562,7 @@ public class AdminMainFrame extends JFrame{
                     }
                     CClassField.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(rootPanel, "新增班级失败");
+                    JOptionPane.showMessageDialog(rootPanel, "新增班级成功");
                 }
             }
         });
@@ -612,7 +613,7 @@ public class AdminMainFrame extends JFrame{
         Font titleFont = new Font("微软雅黑",Font.PLAIN,22);
         for (Department department: departmentList){
             ImgPanel depPanel = new ImgPanel();
-            depPanel.setFileName("bg5.jpg");
+            depPanel.setFileName("backg3.jpg");
             depPanel.repaint();
             depPanel.setPreferredSize(new Dimension(350,500));
             depPanel.setLayout(null);
@@ -774,8 +775,8 @@ public class AdminMainFrame extends JFrame{
             classLabel.setBounds(950,50,200,200);
             classLabel.setFont(font);
             jPanel1.add(classLabel);
-
             tePanel.add(jPanel1);
+
             //删除老师信息
             JButton deleButton = new JButton("删除");
             deleButton.setBounds(330,5,100,30);

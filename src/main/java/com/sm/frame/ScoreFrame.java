@@ -46,10 +46,10 @@ public class ScoreFrame extends JFrame{
         idLabel.setText("180234338");
         departmentLabel.setText("机械院");
         chineseLabel.setText("115");
-        englishLabel.setText("98");
+        englishLabel.setText("68");
         mathLabel.setText("138");
         genderLabel.setText("男");
-        nameLabel.setText("张三");
+        nameLabel.setText("权志龙");
     }
 
     public static void main(String[] args) throws Exception{

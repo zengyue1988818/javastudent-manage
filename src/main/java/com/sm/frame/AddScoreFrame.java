@@ -37,7 +37,7 @@ public class AddScoreFrame extends JFrame{
         this.adminMainFrame = adminMainFrame;
         setContentPane(rootPanel);
         setUndecorated(true);
-        setTitle("新增老师界面");
+        setTitle("新增学生成绩界面");
         setSize(800,500);
         setLocationRelativeTo(null);
         setVisible(true);

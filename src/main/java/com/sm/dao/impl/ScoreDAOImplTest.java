@@ -62,9 +62,9 @@ public class ScoreDAOImplTest {
     @Test
     public void insertScore(){
         Score score = new Score();
-        score.setId("1802343312");
-        score.setClassId(1);
-        score.setStudentName("鹿晗");
+        score.setId("1802343350");
+        score.setClassId(2);
+        score.setStudentName("王子异");
         score.setAvatar("2.jpg");
         score.setGender("男");
         score.setChinese("10");

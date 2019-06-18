@@ -16,8 +16,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class StudentMainFrame extends JFrame{
+
+    private  Thread threaddA;
     private ImgPanel rootPanel;
     private JPanel mainPanel;
     private JButton 院系公告Button;
@@ -35,18 +38,23 @@ public class StudentMainFrame extends JFrame{
     private JPanel punishPanel;
     private JPanel tablePanel;
     private JButton 查看我的成绩Button;
+    private JLabel studentLabel;
+    private JButton 老师建议Button;
     private JButton 老师教育Button;
     private JButton 查看院系Button;
     private JButton 个人成绩Button;
     private JPanel centerPanel;
     private Font font;
+    private Stu stu;
 
-    public StudentMainFrame(Stu data) {
-        font = new Font("微软雅黑",Font.BOLD,20);
+    public StudentMainFrame(Stu stu) {
+        font = new Font("微软雅黑", Font.BOLD, 20);
         //设置需要的背景图片
         rootPanel.setFileName("allbg.jpg");
         //组件重绘
         rootPanel.repaint();
+        this.stu = stu;
+        studentLabel.setText("欢迎您："+ stu.getAdminName());
         //窗体基本属性
         setTitle("学生界面");
         setContentPane(rootPanel);
@@ -61,10 +69,12 @@ public class StudentMainFrame extends JFrame{
         院系公告Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel,"Card3");
+                cardLayout.show(mainPanel, "Card3");
                 showDepartments();
             }
         });
+        //学业预警
+        int res = JOptionPane.showConfirmDialog(null, "是否愿意参加补考", "英语成绩未及格", JOptionPane.YES_NO_OPTION);
 
 
         我的奖励和惩罚Button.addActionListener(new ActionListener() {
@@ -111,6 +121,12 @@ public class StudentMainFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ScoreFrame(StudentMainFrame.this);
+            }
+        });
+        老师建议Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AdviceFrame(StudentMainFrame.this);
             }
         });
     }

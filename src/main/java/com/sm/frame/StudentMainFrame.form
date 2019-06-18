@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.sm.frame.StudentMainFrame">
-  <grid id="27dc6" class="com.sm.ui.ImgPanel" binding="rootPanel" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" class="com.sm.ui.ImgPanel" binding="rootPanel" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1928" height="1299"/>
+      <xy x="20" y="20" width="1948" height="1305"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
       <component id="667f4" class="javax.swing.JLabel">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <font size="14" style="1"/>
+          <font size="18" style="1"/>
           <text value="南京工业职业技术学院欢迎您的光临"/>
         </properties>
       </component>
       <component id="d1846" class="javax.swing.JLabel">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="版权所有©清华大学教务处 地址:北京市海淀区清华大学12号楼 邮编:100084 版权所有©清华大学教务处 地址:北京市海淀区清华大学12号楼 邮编:100084 "/>
@@ -27,7 +27,7 @@
       </component>
       <grid id="3712" binding="mainPanel" layout-manager="CardLayout" hgap="0" vgap="0">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -41,7 +41,7 @@
             </properties>
             <border type="none"/>
             <children>
-              <grid id="c3286" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="c3286" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints border-constraint="West"/>
                 <properties/>
@@ -52,14 +52,28 @@
                       <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
+                      <font size="18" style="1"/>
+                      <foreground color="-11821070"/>
+                      <icon value="img/score.png"/>
                       <text value="查看我的成绩"/>
                     </properties>
                   </component>
                   <vspacer id="fc475">
                     <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </vspacer>
+                  <component id="22dff" class="javax.swing.JButton" binding="老师建议Button" default-binding="true">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font size="18" style="1"/>
+                      <foreground color="-893603"/>
+                      <icon value="img/teacher .png"/>
+                      <text value="老师建议"/>
+                    </properties>
+                  </component>
                 </children>
               </grid>
               <grid id="b8bd2" binding="tablePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -120,6 +134,8 @@
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font size="18" style="1"/>
+                  <icon value="img/惩罚.png"/>
                   <text value="惩罚"/>
                 </properties>
               </component>
@@ -128,6 +144,9 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font size="18" style="1"/>
+                  <foreground color="-893603"/>
+                  <icon value="img/奖励.png"/>
                   <text value="奖励"/>
                 </properties>
               </component>
@@ -157,7 +176,9 @@
                   <grid id="c943a" binding="dePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <foreground color="-893603"/>
+                    </properties>
                     <border type="none"/>
                     <children/>
                   </grid>
@@ -169,41 +190,54 @@
       </grid>
       <component id="9a1ea" class="javax.swing.JButton" binding="院系公告Button" default-binding="true">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font size="18" style="3"/>
           <foreground color="-11821070"/>
+          <icon value="img/院系管理.png"/>
           <text value="院系公告"/>
         </properties>
       </component>
       <component id="bfb96" class="javax.swing.JButton" binding="我的信息Button" default-binding="true">
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font size="18" style="3"/>
+          <foreground color="-11821070"/>
+          <icon value="img/name.png"/>
+          <text value="我的信息"/>
+        </properties>
+      </component>
+      <component id="850f8" class="javax.swing.JButton" binding="我的奖励和惩罚Button" default-binding="true">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font size="18" style="3"/>
           <foreground color="-11821070"/>
-          <text value="我的信息"/>
-        </properties>
-      </component>
-      <component id="850f8" class="javax.swing.JButton" binding="我的奖励和惩罚Button" default-binding="true">
-        <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <font size="18" style="3"/>
-          <foreground color="-11821070"/>
+          <icon value="img/student.png"/>
           <text value="我的奖励和惩罚"/>
         </properties>
       </component>
       <component id="9d7c2" class="javax.swing.JLabel">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <icon value="img/teacher1.png"/>
           <text value=""/>
+        </properties>
+      </component>
+      <component id="7106d" class="javax.swing.JLabel" binding="studentLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font size="18" style="1"/>
+          <foreground color="-12805902"/>
+          <text value="欢迎您："/>
         </properties>
       </component>
     </children>
