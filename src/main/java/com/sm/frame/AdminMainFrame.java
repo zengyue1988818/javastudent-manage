@@ -143,8 +143,6 @@ public class AdminMainFrame extends JFrame{
 
         });
 
-
-
         学生管理Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -749,6 +747,7 @@ public class AdminMainFrame extends JFrame{
         tePanel.setBounds(100,100,200,300);
         tePanel.setLayout(gridLayout);
         tePanel.setBackground(Color.PINK);
+        tePanel.removeAll();
         for (TeacherVO teacherVO : teacherVOList){
             //给每个老师创建一个面板
             JPanel jPanel1 = new JPanel();

@@ -24,7 +24,7 @@ public class ScoreFrame extends JFrame{
 
     public ScoreFrame(StudentMainFrame studentMainFrame){
         //设置需要的背景图片
-        rootPanel.setFileName("allbg.jpg");
+        rootPanel.setFileName("backg2.jpg");
         //组件重绘
         rootPanel.repaint();
         this.studentMainFrame = studentMainFrame;

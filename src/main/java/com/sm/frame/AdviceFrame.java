@@ -39,7 +39,7 @@ public class AdviceFrame extends JFrame {
         });
         chineseLabel.setText("善于观察，仔细思考，勤奋写作，经常反思");
         englishLabel.setText("课前做好上课的充分准备"+"自习课保持安静，自觉，有计划，高效率的学习");
-        mathLabel.setText("自信，自强，学会沟通，构建和谐的人际关系");
+        mathLabel.setText("自信，自强，学会沟通，构建和谐的人际关系,英语要好好学，这是一门基础课程");
     }
 
     public static void main(String[] args) throws Exception {

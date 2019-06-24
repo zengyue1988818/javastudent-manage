@@ -74,7 +74,10 @@ public class StudentMainFrame extends JFrame{
             }
         });
         //学业预警
-        int res = JOptionPane.showConfirmDialog(null, "是否愿意参加补考", "英语成绩未及格", JOptionPane.YES_NO_OPTION);
+        int res = JOptionPane.showConfirmDialog(null,
+                "是否愿意参加补考", "英语成绩未及格", JOptionPane.YES_NO_OPTION);
+
+
 
 
         我的奖励和惩罚Button.addActionListener(new ActionListener() {
@@ -137,6 +140,7 @@ public class StudentMainFrame extends JFrame{
         rewardPanel.setBorder(new EmptyBorder(15,10,15,10));
         rewardPanel.setLayout(gridLayout);
         rewardPanel.setBackground(Color.PINK);
+        rewardPanel.removeAll();
         for (RewardVO rewardVO : rewardVOList ){
             //给每个院系创建一个面板
             JPanel jPanel = new JPanel();
@@ -177,6 +181,7 @@ public class StudentMainFrame extends JFrame{
         punishPanel.setBorder(new EmptyBorder(15,10,15,10));
         punishPanel.setLayout(gridLayout);
         punishPanel.setBackground(Color.PINK);
+        punishPanel.removeAll();
         for (PunishVO punishVO : punishVOList ){
             //给每个院系创建一个面板
             JPanel jPanel1 = new JPanel();

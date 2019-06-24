@@ -35,6 +35,9 @@ public class DAOFactory {
     public static TeaDAO getTeaDAOInstance(){
         return new TeaDAOImpl();
     }
+    public static TeachDAO getTeachDAOInstance(){
+        return new TeachDAOImpl();
+    }
 }
 
 

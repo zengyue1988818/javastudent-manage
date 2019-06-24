@@ -3,6 +3,7 @@ package com.sm.factory;
 import com.sm.service.AdminService;
 import com.sm.service.DepartmentService;
 import com.sm.service.StuService;
+import com.sm.service.TeachService;
 import com.sm.service.impl.*;
 
 public class ServiceFactory {
@@ -32,5 +33,8 @@ public class ServiceFactory {
     }
     public static TeaServiceImpl getTeaInstance(){
         return new TeaServiceImpl();
+    }
+    public static TeachService getTeachInsuance(){
+        return new TeachServiceImpl();
     }
 }
